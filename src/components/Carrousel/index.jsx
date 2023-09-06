@@ -39,11 +39,12 @@ function Carrousel() {
     const [currentIndex, setCurrentIndex] = useState(1)
     
     function goToPrevious() {
-        currentIndex > 0 && setCurrentIndex(currentIndex -1)
+        setCurrentIndex( current => (current -1 + slideImages.length) % slideImages.length)
+        // currentIndex > 0 && setCurrentIndex(currentIndex -1)
     }
 
     function goToNext() {
-        currentIndex < slideImages.length - 1 && setCurrentIndex(currentIndex + 1)
+        setCurrentIndex( current => (current +1 + slideImages.length) % slideImages.length)
     }
 
     return(
@@ -51,8 +52,10 @@ function Carrousel() {
             <ImageStyle 
                 style={{ backgroundImage: `url(${slideImages[currentIndex].img})`}}
             />
-            <div onClick={goToPrevious}>{chevronLeft}</div>
-            <div onClick={goToNext}>{chevronRight}</div>
+            {slideImages.length>1 && (<>
+                <div onClick={goToPrevious}>{chevronLeft}</div>
+                <div onClick={goToNext}>{chevronRight}</div>
+            </>)}
         </div>
     )
 }

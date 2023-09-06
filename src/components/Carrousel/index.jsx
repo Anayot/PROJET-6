@@ -40,7 +40,6 @@ function Carrousel() {
     
     function goToPrevious() {
         setCurrentIndex( current => (current -1 + slideImages.length) % slideImages.length)
-        // currentIndex > 0 && setCurrentIndex(currentIndex -1)
     }
 
     function goToNext() {

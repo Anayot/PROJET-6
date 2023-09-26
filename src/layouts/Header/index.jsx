@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import HeaderLogo from '../../assets/header-logo.png'
 import styled from 'styled-components'
+import { MediaMobile } from '../../utils/style/GlobalStyle'
 
 const HeaderContainer = styled.nav`
     display: flex;
@@ -8,15 +9,35 @@ const HeaderContainer = styled.nav`
     justify-content: space-between;
     align-items: center;
     margin: 45px 100px;
+    ${MediaMobile} {
+        margin: 20px;
+    }
+`
+
+const StyledImg = styled.img`
+    ${MediaMobile} {
+        width: 145px;
+    }
+`
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 57px;
+    ${MediaMobile} {
+        gap: 26px;
+    }
 `
 
 const StyledLink = styled(Link)`
     color: #FF6060;
     text-decoration: none;
     font-size: 24px;
-    padding-left: 57px;
     &: hover {
         text-decoration: underline;
+    }
+    ${MediaMobile} {
+        font-size: 12px;
     }
 `
 
@@ -24,16 +45,16 @@ function Header() {
     return(
         <HeaderContainer>
             <Link to='/'>
-                <img src={HeaderLogo} alt='logo'/>
+                <StyledImg src={HeaderLogo} alt='logo'/>
             </Link>
-            <div>
+            <StyledContainer>
                 <StyledLink to='/'>
                     Accueil
                 </StyledLink>
                 <StyledLink to='/about'>
                     A Propos
                 </StyledLink>
-            </div>
+            </StyledContainer>
         </HeaderContainer>
     )
 }

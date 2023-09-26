@@ -2,60 +2,100 @@ import { useState } from "react"
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"
-import ImagesSlider from '../../assets/carrousel.png'
-import HomeBanner from '../../assets/home-banner.png'
+import { MediaMobile } from "../../utils/style/GlobalStyle"
 
+const CarrouselContainer = styled.div`
+    width: 100%;
+    height: 415px; 
+    position: relative;
+    ${MediaMobile} {
+        height: 215px;
+    }
+`
 
 const ImageStyle = styled.img`
     width: 100%;
     height: 100%;
-    background-position: center;
-    background-size: cover;
+    object-fit: cover;
+    border-radius: 25px;
+    ${MediaMobile} {
+        border-radius: 10px;
+    }
 `
 
-const chevronRight = <FontAwesomeIcon icon={faChevronRight} />
-const chevronLeft = <FontAwesomeIcon icon={faChevronLeft} />
+const ChevronLeft = styled.div`
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    cursor: pointer;
+    font-size: 70px;
+    transform: translateY(-50%);
+    & * {
+        color: white!important
+    }
+    ${MediaMobile} {
+        font-size: 24px;
+    }
+`
 
-const slideImages = [
-    {
-        title: 'Slide 1',
-        img: ImagesSlider
-    },
-    {
-        title: 'Slide 2',
-        img: HomeBanner
-    },
-    {
-        title: 'Slide 3',
-        img: ImagesSlider
-    },
-    {
-        title: 'Slide 4',
-        img: ImagesSlider
-    },
-]
+const ChevronRight = styled.div`
+    position: absolute;
+    right : 20px;
+    top: 50%;
+    font-size: 70px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    & * {
+        color: white!important
+    }
+    ${MediaMobile} {
+        font-size: 24px;
+    }
+`
 
-function Carrousel() {
-    const [currentIndex, setCurrentIndex] = useState(1)
+const SlideNumber = styled.div`
+    position: absolute;
+    left: 50%;
+    bottom: 25px;
+    color: white;
+    font-size: 18px;
+    ${MediaMobile} {
+        display: none;
+    }
+`
+
+const arrowRight = <FontAwesomeIcon icon={faChevronRight} />
+const arrowLeft = <FontAwesomeIcon icon={faChevronLeft} />
+
+function Carrousel({pictures}) {
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const totalSlides = pictures.reduce(() => pictures.length)
+    const actualSlide = currentIndex +1
+    console.log(actualSlide)
+
+    if (pictures && pictures.length < 1) {
+        return null
+    }
     
     function goToPrevious() {
-        setCurrentIndex( current => (current -1 + slideImages.length) % slideImages.length)
+        setCurrentIndex( current => (current -1 + pictures.length) % pictures.length)
     }
 
     function goToNext() {
-        setCurrentIndex( current => (current +1 + slideImages.length) % slideImages.length)
+        setCurrentIndex( current => (current +1 + pictures.length) % pictures.length)
     }
-
+    
     return(
-        <div>
+        <CarrouselContainer>
             <ImageStyle 
-                style={{ backgroundImage: `url(${slideImages[currentIndex].img})`}}
+                src={pictures[currentIndex]}
             />
-            {slideImages.length>1 && (<>
-                <div onClick={goToPrevious}>{chevronLeft}</div>
-                <div onClick={goToNext}>{chevronRight}</div>
+            {pictures.length > 1 && (<>
+                <ChevronLeft onClick={goToPrevious}>{arrowLeft}</ChevronLeft>
+                <ChevronRight onClick={goToNext}>{arrowRight}</ChevronRight>
+                <SlideNumber>{actualSlide}/{totalSlides}</SlideNumber>
             </>)}
-        </div>
+        </CarrouselContainer>
     )
 }
 

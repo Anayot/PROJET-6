@@ -1,3 +1,4 @@
-.chevron svg{
-    color: white;
+.detail * {
+    font-size: 18px;
+    border: 1px solid blue;
 }

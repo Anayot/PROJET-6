@@ -1,5 +1,6 @@
 import FooterLogo from '../../assets/footer-logo.png'
 import styled from 'styled-components'
+import { MediaMobile } from '../../utils/style/GlobalStyle'
 
 const FooterContainer = styled.div`
     background-color: black;
@@ -8,11 +9,20 @@ const FooterContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 25px;
+    ${MediaMobile} {
+        gap: 0;
+        margin-top: 20px;
+    }
 `
 
 const Copyright = styled.p`
     color: white;
     margin-bottom: 30px;
+    ${MediaMobile} {
+        font-size: 12px;
+        width: 134px;
+        text-align: center;
+    }
 `
 
 const Logo = styled.img`

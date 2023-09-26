@@ -1,52 +1,85 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import '../../utils/style/Index.css'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { MediaMobile } from '../../utils/style/GlobalStyle'
 
 
 const CollapserContainer = styled.div`
     background-color: #FF6060;
     border-radius: 5px;
-    font-size: 24px;
     padding: 10px 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 30px);
 `
 
 const CollapserTitle = styled.span`
-    color: white;   
+    color: white;
+    ${MediaMobile} {
+        font-size: 13px;
+    }   
 `
 
 const CollapserButton = styled.div`
     cursor: pointer;
-    background-color: white;
     border: none;
+    width: 32px;
+    text-align: center;
+    & * {
+        color: white!important;
+    }
+    & .chevron {
+        transition: transform 0.5s ease-in-out;
+        &.up{
+            transform: rotate(180deg);
+        }
+    }
 `
 
-const CollapserDescription = styled.p`
+const CollapserDescription = styled.div`
     background-color: #F6F6F6;
     padding: 20px;
     border-radius: 0 0 5px 5px;
     margin: 0;
+    width: calc(100% - 40px);
+    transition: all 500ms ease-in-out;
+    overflow: hidden;
+    ${MediaMobile} {
+        font-size: 13px;
+    }
 `
 
-const chevronDown = <FontAwesomeIcon icon={faChevronDown} style={{color: "#ffffff",}} />
-const chevronUp = <FontAwesomeIcon icon={faChevronUp} className='chevron'/>
+const Chevron = ({isOpen}) => <FontAwesomeIcon icon={faChevronDown} className={isOpen?"chevron up":"chevron"} />
 
 
-function Collapser({title, description}) {
+function Collapser({title, description, titleSize=24}) {
     const [isOpen, setIsOpen] = useState(false)
-    const changeButton= () => setIsOpen(!isOpen)
+    const [animating, setAnimating] = useState('')
+    
+    const changeButton= () => {
+        if(isOpen) {
+            setAnimating('opening')
+            setTimeout(() => {
+                setAnimating('')
+                setIsOpen(false)
+            }, 500)
+        } else {
+            setIsOpen(true)
+        }
+    }
 
     return(
-        <div>
-            <CollapserContainer>
+        <div style={{width: '100%'}}>
+            <CollapserContainer style={{fontSize: titleSize + 'px'}}>
                 <CollapserTitle>{title}</CollapserTitle>
-                <CollapserButton onClick={changeButton} >{isOpen ? (chevronUp) : (chevronDown)}</CollapserButton>
+                <CollapserButton onClick={changeButton}>
+                    <Chevron isOpen={isOpen}/>
+                </CollapserButton>
             </CollapserContainer>
-            {isOpen && <CollapserDescription>{description}</CollapserDescription>}
+            {isOpen && <CollapserDescription className={animating}>{description}</CollapserDescription>}
         </div>
     )
 }

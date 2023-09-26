@@ -1,16 +1,24 @@
 import styled from 'styled-components'
 import AboutBanner from '../../assets/about-banner.png'
 import Collapser from '../../components/Collapser'
+import { MediaMobile } from '../../utils/style/GlobalStyle'
 
 const MainContainer = styled.div`
     margin : 5px 100px 0px 100px;
     display: flex;
     flex-direction: column;
+    ${MediaMobile} {
+        margin: 0 20px;
+        gap: 20px;
+    }
 `
 
 const AboutBannerContainer = styled.div`
     height: 223px;
     position: relative;
+    ${MediaMobile} {
+        height: 110px;
+    }
 `
 
 const AboutBannerImage = styled.img`
@@ -18,6 +26,10 @@ const AboutBannerImage = styled.img`
     width: 100%;
     object-fit: cover;
     border-radius: 25px;
+    ${MediaMobile} {
+        border-radius: 10px;
+        height: 110px;
+    }
 `
 
 const AboutBannerText = styled.div`
@@ -28,6 +40,9 @@ const AboutBannerText = styled.div`
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3);
+    ${MediaMobile} {
+        border-radius: 10px;
+    }
 `
 
 const AboutContainer = styled.div`
@@ -35,6 +50,9 @@ const AboutContainer = styled.div`
     flex-direction: column;
     margin: 38px 205px;
     gap: 30px;
+    ${MediaMobile} {
+        margin: 0;
+    }
 `
 
 const aboutDescription = [
@@ -60,19 +78,19 @@ const aboutDescription = [
 function About() {
     return(
         <MainContainer>
-        <AboutBannerContainer>
-            <AboutBannerImage src={AboutBanner} alt="banner"/>
-            <AboutBannerText></AboutBannerText>
-        </AboutBannerContainer>
-        <AboutContainer>
-            {aboutDescription.map((obj, index) => (
-                <Collapser key={`${obj}-${index}`}
-                    title={obj.title}
-                    description={obj.description}
-                />                  
-            ))}
-        </AboutContainer>
-    </MainContainer>
+            <AboutBannerContainer>
+                <AboutBannerImage src={AboutBanner} alt="banner"/>
+                <AboutBannerText></AboutBannerText>
+            </AboutBannerContainer>
+            <AboutContainer>
+                {aboutDescription.map((obj, index) => (
+                    <Collapser key={`${obj}-${index}`}
+                        title={obj.title}
+                        description={obj.description}
+                    />                  
+                ))}
+            </AboutContainer>
+        </MainContainer>
     )
 }
 
